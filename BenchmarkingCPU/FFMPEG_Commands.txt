@@ -1,0 +1,4 @@
+taskset -c 20,64 ffmpeg -hide_banner -stats -re -i ${inputfile} -c copy -bsf:v h264_mp4toannexb -f mpegts udp://12.12.2.2:20024 -vcodec libx264 -tune zerolatency -v quiet &
+echo " stream for vm2 "
+taskset -c 21,65 ffmpeg -hide_banner -stats -re -i ${inputfile} -c copy -bsf:v h264_mp4toannexb -f mpegts udp://12.12.1.2:20023 -vcodec libx264 -tune zerolatency -v quiet &
+
