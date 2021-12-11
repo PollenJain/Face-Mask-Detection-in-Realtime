@@ -1,0 +1,74 @@
+Why are we even using conda enviroment? Can't we just use conda's normal installation of python?
+We can. But somehow there are issues installing opencv in normal conda while it gets easily installed in the environment. That is the main reason why I am pushing for the environment. There are other advantages of using envirnoment but we will discuss that later.
+
+On this Windows 10 machine, I have created conda environment which contains packages required to run this project :
+
+1. How to create conda environment without any default packages?
+Run command :
+conda create --name yourenvname python=x.x --no-default-packages
+Here, I created an environment named "AI@Home" and chose python version as 3.7.4 using command :
+conda create -name AI@Home python=3.7.4 anaconda
+conda create --name AI@Home python --no-default-packages
+
+2. This environment gets created in this path :
+environment location: C:\Users\paragjai\AppData\Local\Continuum\anaconda3\envs\AI@Home
+
+3. To activate the virtual environment, use the command:
+activate yourenvname
+Here, we use : activate AI@Home
+Note: On windows, this command may not work in Power shell or administrator Power Shell. Use simple command prompt to execute this command and activate your virtual environment
+
+4. Install the following packages for this project to this environment :
+	a) Numpy : conda install -c conda-forge --name AI@Home numpy
+	b) Tensorflow : conda install --name AI@Home tensorflow=1.13 
+	#Note : This was uninstalled and later tensorflow version which was compiled to make use of AVX2 CPU instructions was installed. 
+	How? 
+	Step 1 : Downloaded a wheel (.whl) file of tensorflow which was compiled (by someone) to make use of AVX2 CPU instructions.
+	Step 2 : Entered the environment using : activate AI@Home
+	Step 3 : Installed tensorflow using the .whl file : pip install <tensorflow_file_name_with_AVX2_instructions_compiled>.whl
+	Yes. Pip install was directly used within the conda environment.
+	c) Opencv : conda install -c conda-forge --name AI@Home opencv
+	d) Scikit-learn : conda install --name AI@Home scikit-learn
+	e) PIL : conda install --name AI@Home pillow
+	f) Keras : conda install --name AI@Home keras
+	g) pyqt : conda install -c conda-forge --name AI@Home pyqt
+
+
+5. Once the enviroment creation, activation and installation of packages is complete we can go ahead and run our python code.
+
+To activate environment once already created, use command :
+activate AI@Home
+
+i) Running detect_face_mask_in_image.py :
+Use command : 
+python detect_face_mask_in_image.py --image examples/example_03.png
+python detect_face_mask_in_image.py --image family_images/NofaceWithMask1.jpg
+python detect_face_mask_in_image.py --image family_images/OnefaceWithMask1.jpg
+python detect_face_mask_in_image.py --image family_images/OnefaceWithMask4.jpg
+python detect_face_mask_in_image.py --image family_images/OnefaceWithMask3.jpg
+
+
+ii) Running detect_face_mask_in_rtv_threaded.py : 
+Use command : 
+python detect_face_mask_in_rtv_threaded.py 
+
+
+
+Another environment is also created with python=3.7.4 named : TensorflowWithoutAVX2Instructions
+This environment contains tensorflow without AVX2 instructions compiled. It is created to compare inference time taken with (AI@Home environment) and without using AVX2 instructions. All the packages version are same as that in AI@Home environment.
+	a) Numpy : conda install --name TensorflowWithoutAVX2Instructions numpy=1.18.4
+	b) Tensorflow : conda install --name TensorflowWithoutAVX2Instructions tensorflow=2.0.0
+	c) Opencv : conda install --name TensorflowWithoutAVX2Instructions opencv=3.4.2
+	d) Scikit-learn : conda install --name TensorflowWithoutAVX2Instructions scikit-learn=0.22.1
+	e) PIL : conda install --name TensorflowWithoutAVX2Instructions pillow=7.1.2
+	f) Keras : conda install --name TensorflowWithoutAVX2Instructions keras=2.3.1
+
+
+- Activate the environment :
+activate TensorflowWithoutAVX2Instructions
+
+- Run detect_face_mask_in_rtv:
+python detect_face_mask_in_rtv.py
+
+- Deactivate the environment :
+deactivate TensorflowWithoutAVX2Instructions
